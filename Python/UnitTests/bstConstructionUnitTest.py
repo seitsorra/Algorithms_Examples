@@ -1,8 +1,9 @@
 import unittest
-import sys
-sys.path.append('C:/Users/seit-/Documents/Algorithms/AlgoExpert/Python')
 import bstConstruction as program
 
+t = program.BST(1)
+t.insert(5)
+print(t.contains(5), t.contains(10))
 test1 = program.BST(10).insert(5).insert(15).insert(5).insert(2).insert(14).insert(22)
 
 test2 = program.BST(10).insert(15).insert(11).insert(22).insert(10)

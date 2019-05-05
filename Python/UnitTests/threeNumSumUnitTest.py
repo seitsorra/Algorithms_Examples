@@ -1,6 +1,4 @@
 import unittest
-import sys
-sys.path.append('C:/Users/seit-/Documents/Algorithms/AlgoExpert/Python')
 import threeNumSum as program
 
 class ThreeNumSumUnitTest(unittest.TestCase):

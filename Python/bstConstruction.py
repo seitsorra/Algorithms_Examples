@@ -24,32 +24,57 @@ class BST:
         self.left = None
         self.right = None
 
+    #Iterative solution:
+    #   - O(log(N) time and O(1) space
     def insert(self, value):
-        if value >= self.value:
-            if self.right is None:
-                self.right = BST(value)
+        currentNode = self
+        while True:
+            if value < currentNode.value:
+                if currentNode.left is None:
+                    currentNode.left = BST(value)
+                    break
+                else:
+                    currentNode = currentNode.left
             else:
-                self.insert(self.right, value)
-        else:
-            if self.left is None:
-                self.left = BST(value)
-            else:
-                insert(self.left, value)
+                if currentNode.right is None:
+                    currentNode.right = BST(value)
+                    break
+                else:
+                    currentNode = currentNode.right
         return self
 
     def contains(self, value):
-        if self is None:
-            return False
-
-        if self.value == value:
-            return True
-        else:
-            if value < self.value:
-                return self.contains(self.left, value)
+        currentNode = self
+        while currentNode is not None:
+            if currentNode.value == value:
+                return True
+            elif value < currentNode.value:
+                currentNode = currentNode.left
             else:
-                return self.contains(self.right, value)
+                currentNode = currentNode.right
+        return False
 
-    def remove(self, value):
-        # Write your code here.
-        # Do not edit the return statement of this method.
+    def remove(self, value, parentNode = None):
+        currentNode = self
+        while currentNode is not None:
+            if value < currentNode.value:
+                parentNode = currentNode
+                currentNode = currentNode.left
+            elif value >= currentNode.value:
+                parentNode = currentNode
+                currentNode = currentNode.right
+            else:
+                if parentNode is None:
+                    # we are removing the root node
+                    pass
+                elif currentNode.right is None and currentNode.left is None:
+                    # This is a leaf node so we are good to simply remove it
+                    if currentNode.value < parentNode.value:
+                        parentNode.left = None
+                    else:
+                        parentNode.right = None
+                    break
+                else:
+                    # Need to make sure we maintain the BST rules when removing a non-leaf node
+                    pass
         return self
