@@ -13,7 +13,7 @@ using namespace std;
 
     Sample Input:
         [-1, 5, 10, 20, 28, 3], [26, 134, 135, 15, 17]
-    Output:
+    Sample Output:
         [28, 26]
 */
 vector<int> smallestDifference(vector<int> arrayOne, vector<int> arrayTwo)
