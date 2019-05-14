@@ -109,4 +109,5 @@ venv.bak/
 *.out
 *.pdb
 *.obj
+*.exe
 */__pycache__
