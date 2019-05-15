@@ -13,9 +13,7 @@ BST CONSTRUCTION
     The removal method should only remove the first instance of the target value.
 */
 
-#include <vector>
-#include <iostream>
-using namespace std;
+#include "utils.h"
 
 // Do not edit the class below except for
 // the insert, contains, and remove methods.
@@ -140,19 +138,6 @@ vector<int> inOrderTraverse(BST* tree, vector<int> array){
         array = inOrderTraverse(tree->right, array);
     }
     return array;
-}
-
-void printVector(vector<int> v)
-{
-    for (int i = 0; i < v.size(); i++){
-        cout << v[i];
-        if (i == v.size() - 1){
-            cout << endl;
-        }
-        else{
-            cout << " , ";
-        }
-    }
 }
 
 int main(){

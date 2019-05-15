@@ -1,7 +1,4 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
-using namespace std;
+#include "utils.h"
 
 /*
     THREE NUMBER SUM
@@ -19,19 +16,6 @@ using namespace std;
     SAMPLE OUTPUT
         -[[-8,2,6], [-8,3,5], [-6,1,5]]
 */
-
-void printVector(vector<int> v)
-{
-    for (int i = 0; i < v.size(); i++){
-        cout << v[i];
-        if (i == v.size() - 1){
-            cout << endl;
-        }
-        else{
-            cout << " , ";
-        }
-    }
-}
 
 vector<vector<int> > threeNumberSum(vector<int> array, int targetSum) {
     // Write your code here.
