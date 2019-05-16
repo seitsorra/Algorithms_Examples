@@ -25,6 +25,8 @@ Sample output: 330 - [75, 120, 135]
     Also to make things easier we can do the following:
         - if array has size less than 2 then no sum can be generated so return 0
         - populate the first two index of dynamic max sum with respective indexs of the provided array and start iterating at (idx=2)
+
+    O(n) time & O(n) space
 */
 int maxSubsetSumNoAdjacent(vector<int> array){
     if(array.size() == 0 || array.size() == 2){
@@ -45,6 +47,26 @@ int maxSubsetSumNoAdjacent(vector<int> array){
     return maxSum[array.size()-1];
 }
 
+// O(n) time & O(1) space
+int maxSubsetSumNoAdjacentConstSpace(vector<int> array){
+    if(array.size() == 0 || array.size() == 2){
+        return 0;
+    }
+    else if(array.size() == 1){
+        return array[0];
+    }
+    int prevLast = array[0];
+    int last = array[1];
+
+    for (int idx = 2; idx < array.size(); idx++){
+        int current = max(last, prevLast+array[idx]);
+        prevLast = last;
+        last = current;
+    }
+
+    return last;
+}
+
 struct TestCase{
     vector<int> v;
     int sum;
@@ -61,7 +83,7 @@ int main(){
 
     // Test Case 2
     test.v = {1};
-    test.sum = 0;
+    test.sum = 1;
     cases.push_back(test);
 
     // Test Case 3
@@ -85,7 +107,7 @@ int main(){
     cases.push_back(test);
 
     for (int i = 0; i < cases.size(); i++) {
-        int maxSum = maxSubsetSumNoAdjacent(cases[i].v);
+        int maxSum = maxSubsetSumNoAdjacentConstSpace(cases[i].v);
         if(maxSum == cases[i].sum){
             cout << "Test Case " << i+1 << " PASED!" << endl;
         }

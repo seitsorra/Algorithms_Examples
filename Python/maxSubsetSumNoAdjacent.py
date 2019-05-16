@@ -26,6 +26,7 @@ SOLUTION EXPLAINED:
 
 '''
 
+# O(n) time & O(n) space
 def maxSubsetSumNoAdjacent(arr):
     if len(arr) == 2 or len(arr) == 0:
         return 0
@@ -41,6 +42,22 @@ def maxSubsetSumNoAdjacent(arr):
 
     return maxSum[len(arr)-1]
 
+# O(n) time & O(1) space
+def maxSubsetSumNoAdjacentConstSpace(arr):
+    if len(arr) == 2 or len(arr) == 0:
+        return 0
+    elif len(arr) == 1:
+        return arr[0]
+
+    prevLast = arr[0]
+    last = arr[1]
+    for idx in range(2, len(arr)):
+        current = max(last, prevLast+arr[idx])
+        prevLast = last
+        last = current
+
+    return last
+
 if __name__ == "__main__":
     v = [75, 105, 120, 75, 90, 135]
-    print("PASSED" if maxSubsetSumNoAdjacent(v) == 330 else "FAILED")
+    print("PASSED" if maxSubsetSumNoAdjacentConstSpace(v) == 330 else "FAILED")
