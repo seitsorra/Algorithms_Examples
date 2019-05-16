@@ -14,7 +14,7 @@ SOLUTION EXPLAINED:
 
     So for array:        [75, 105, 120, 75, 90, 135]
     Use    maxSumArray:  [75, 105, 0 , 0 , 0 , 0]
-    
+
     Since we cannot use the adjacent values then for each index in the provided array we can use the following formula to determine
     max sum:
 
@@ -27,8 +27,11 @@ SOLUTION EXPLAINED:
 '''
 
 def maxSubsetSumNoAdjacent(arr):
-    if len(arr) <= 2:
+    if len(arr) == 2 or len(arr) == 0:
         return 0
+    elif len(arr) == 1:
+        return arr[0]
+
     maxSum = [n for n in arr]
 
     idx = 2

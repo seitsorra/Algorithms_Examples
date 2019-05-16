@@ -27,8 +27,11 @@ Sample output: 330 - [75, 120, 135]
         - populate the first two index of dynamic max sum with respective indexs of the provided array and start iterating at (idx=2)
 */
 int maxSubsetSumNoAdjacent(vector<int> array){
-    if(array.size() <= 2){
+    if(array.size() == 0 || array.size() == 2){
         return 0;
+    }
+    else if(array.size() == 1){
+        return array[0];
     }
     vector<int> maxSum(array.size());
     maxSum.at(0) = (array[0]);
