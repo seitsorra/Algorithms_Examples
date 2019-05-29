@@ -16,8 +16,17 @@ Sample output: 2 (1x1 + 1x5 and 6x1)
 /* 
     We are going to make use of dynamic programming to solve this issue.
 
-    The solution consists of creating an array of size target representing number of ways and for each denomination
-    iterate through the array and use the following formula:
+    The solution consists of creating an array of size target with all the dollar values until our target.
+
+    i.e. when target is 10$ the array that we will build will be
+        - [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]    <--- array values
+           |  |  |  |  |  |  |  |  |  |  |
+           0  1  2  3  4  5  6  7  8  9  10     <--- array indexes
+
+    We will build this array by iterating through each denominator and determining for each index in the array what
+    is the minimum number of changes that will sum to the array idx value (Dollar value)
+
+    For that we will use the following formula:
 
         if(denom <= amount)
             ways[amount] += ways[amount - denom]
@@ -30,7 +39,10 @@ int numberOfWaysToMakeChange(int target, vector<int> denoms){
     numWays[0] = 1;
 
     for(int denom : denoms){
-        for(int amount = 0; amount < numWays.size(); amount++){
+        for(int amount = 1; amount < numWays.size(); amount++){
+            // So basically if our denominator (coin change) is less than dollar amount we know for sure
+            // that we can fit this coin change to create the dollar amount
+            // therefore we can update the number of ways at this dollar amount + number of ways for difference of dollar amount and coin change(denominator)
             if(denom <= amount){
                 numWays[amount] = numWays[amount] + numWays[amount - denom];
             }
@@ -113,7 +125,7 @@ int main(){
     for (int i = 0; i < cases.size(); i++) {
         int numWays = numberOfWaysToMakeChange(cases[i].targetChange, cases[i].denominations);
         if(numWays == cases[i].expNumWays){
-            cout << "Test Case " << i+1 << " PASED!" << endl;
+            cout << "Test Case " << i+1 << " PASSED!" << endl;
         }
         else{
             cout << "Test Case " << i+1 << " FAILED! (Expected " << cases[i].expNumWays << " Got " << numWays << ")" << endl;
