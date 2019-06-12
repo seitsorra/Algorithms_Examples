@@ -23,8 +23,88 @@
 */
 #include "utils.h"
 
+vector<vector<int>> getUnvisitedNeighboring(int i, int j, const vector<vector<int>>& matrix, const vector<vector<bool>>& visited){
+    vector<vector<int>> unvisited;
+
+    // Left node
+    int x = i;
+    int y = j;
+
+    x = i - 1;
+    if(x >= 0 && !visited[x][y]){
+        unvisited.push_back({{x,y}});
+    }
+
+    // Right Node
+    x = i + 1;
+    if(x < matrix[0].size() && !visited[x][y]){
+        unvisited.push_back({{x,y}});
+    }
+
+    // Top node
+    x = i;
+    y = j - 1;
+    if(y >= 0 && !visited[x][y]){
+        unvisited.push_back({{x,y}});
+    }
+
+    // Bottom Node
+    y = j + 1;
+    if(y < matrix.size() && !visited[x][y]){
+        unvisited.push_back({{x,y}});
+    }
+
+    return unvisited;
+}
+
+void traverseNode(vector<int>& sizes, int row, int col, const vector<vector<int>>& matrix, vector<vector<bool>>& visited){
+    int riverSize = 0;
+
+    vector<vector<int>> nodesToVisit {{row, col}};
+
+    while (nodesToVisit.size() != 0){
+        vector<int> currentNode = nodesToVisit.back();
+        nodesToVisit.pop_back();
+        int i = currentNode[0];
+        int j = currentNode[1];
+
+        if(visited[i][j]){
+            continue;
+        }
+        if(matrix[i][j] == 0){
+            continue;
+        }
+        visited[i][j] = true;
+        riverSize += 1;
+        vector<vector<int>> unvisited = getUnvisitedNeighboring(i, j, matrix, visited);
+        for(int r = 0; r < unvisited.size(); r++){
+            nodesToVisit.push_back(unvisited[r]);
+        }
+    }
+    if(riverSize > 0){
+        sizes.push_back(riverSize);
+    }
+}
+
 vector<int> riverSizes(vector<vector<int>> matrix){
-    return {1, 2, 2, 2, 5};
+    vector<vector<bool>> visited;
+    for(int r = 0; r < matrix.size(); r++){
+        visited.push_back(vector<bool>(matrix[r].size(), false));
+    }
+
+    vector<int> res;
+
+    for(int row = 0; row < matrix.size(); row++){
+        for (int col = 0; col < matrix[row].size(); col++){
+            if(visited[row][col]){
+                continue;
+            }
+            traverseNode(res, row, col, matrix, visited);
+        }
+        
+    }
+    std::sort(res.begin(), res.end());
+    return res;
 }
 
 struct TestCase{
@@ -38,6 +118,7 @@ int main(){
 
     // Test Case 1
     test.matrix = {{1, 0, 0, 1, 0}, {1, 0, 1, 0, 0}, {0, 0, 1, 0, 1}, {1, 0, 1, 0, 1}, {1, 0, 1, 1, 0}};
+
     test.result = {1, 2, 2, 2, 5};
     cases.push_back(test);
 

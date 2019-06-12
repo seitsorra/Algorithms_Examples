@@ -3,9 +3,11 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include <stack>
 using namespace std;
 
-void printVector(vector<int> v)
+template<class T>
+void printVector(T v)
 {
     for (int i = 0; i < v.size(); i++){
         cout << v[i];
@@ -17,3 +19,4 @@ void printVector(vector<int> v)
         }
     }
 }
+
