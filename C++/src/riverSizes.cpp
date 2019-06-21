@@ -23,6 +23,11 @@
 */
 #include "utils.h"
 
+/**
+ * given a matrix index this function will check its neighbouring nodes (Left, Right, Top, Bottom) if they are visited
+ * 
+ * It returns a vector of vector<int> ([0]-row, [1]-col) representing the unvisited neighbouring nodes 
+ */
 vector<vector<int>> getUnvisitedNeighboring(int i, int j, const vector<vector<int>>& matrix, const vector<vector<bool>>& visited){
     vector<vector<int>> unvisited;
 
@@ -58,10 +63,14 @@ vector<vector<int>> getUnvisitedNeighboring(int i, int j, const vector<vector<in
 }
 
 void traverseNode(vector<int>& sizes, int row, int col, const vector<vector<int>>& matrix, vector<vector<bool>>& visited){
+    /*
+        Here we are going to make use of DEPTH FIRST SEARCH ALGORITHM and traverse to all nodes while maintaining the visited flag
+    */
+
     int riverSize = 0;
 
     vector<vector<int>> nodesToVisit {{row, col}};
-
+    // Keep traversing until we arrive in a node which is a land and also all its neighbouring nodes are also land
     while (nodesToVisit.size() != 0){
         vector<int> currentNode = nodesToVisit.back();
         nodesToVisit.pop_back();
@@ -71,10 +80,12 @@ void traverseNode(vector<int>& sizes, int row, int col, const vector<vector<int>
         if(visited[i][j]){
             continue;
         }
+        // Mark as visited
+        visited[i][j] = true;
+
         if(matrix[i][j] == 0){
             continue;
         }
-        visited[i][j] = true;
         riverSize += 1;
         vector<vector<int>> unvisited = getUnvisitedNeighboring(i, j, matrix, visited);
         for(int r = 0; r < unvisited.size(); r++){
@@ -87,24 +98,26 @@ void traverseNode(vector<int>& sizes, int row, int col, const vector<vector<int>
 }
 
 vector<int> riverSizes(vector<vector<int>> matrix){
-    vector<vector<bool>> visited;
-    for(int r = 0; r < matrix.size(); r++){
-        visited.push_back(vector<bool>(matrix[r].size(), false));
-    }
 
-    vector<int> res;
+    // Create a copy of the matrix to keep track of visited nodes (matrix indexes) as we traverse through the matrix
+    vector<vector<bool>> visited (matrix.size(), vector<bool>(matrix[0].size(), false));
 
+    vector<int> ret; // vector with river sizes that this function will return
+
+    // This is the main loop where we traverse the matrix
     for(int row = 0; row < matrix.size(); row++){
         for (int col = 0; col < matrix[row].size(); col++){
             if(visited[row][col]){
                 continue;
             }
-            traverseNode(res, row, col, matrix, visited);
+            // A helper function that will get a matrix index and check if it is a land or river
+            // If it is a river will keep going on unvisited neighbouring nodes and check them as well of there are land or river
+            traverseNode(ret, row, col, matrix, visited);
         }
         
     }
-    std::sort(res.begin(), res.end());
-    return res;
+    std::sort(ret.begin(), ret.end());
+    return ret;
 }
 
 struct TestCase{
@@ -123,15 +136,15 @@ int main(){
     cases.push_back(test);
 
     for (int i = 0; i < cases.size(); i++) {
-        vector<int> res = riverSizes(cases[i].matrix);
-        if(res == cases[i].result){
-            cout << "Test Case " << i+1 << " PASED!" << endl;
+        vector<int> ret = riverSizes(cases[i].matrix);
+        if(ret == cases[i].result){
+            cout << "Test Case " << i+1 << " PASSED!" << endl;
         }
         else{
             cout << "Test Case " << i+1 << " FAILED! (Expected \n";
             printVector(cases[i].result);
             cout << "\n Got \n";
-            printVector(res);
+            printVector(ret);
         }
     }
     return 0;
