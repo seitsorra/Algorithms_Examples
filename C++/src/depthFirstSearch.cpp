@@ -24,6 +24,24 @@ class Node{
     public:
         string name;
         vector<Node*> children;
+
+        Node(string n){
+            name = n;
+        }
+
+        Node* addChild(string name){
+            Node* child = new Node(name);
+            children.push_back(child);
+            return this;
+        }
+
+        vector<string> depthFirstSearch(vector<string>* array){
+            array->push_back(name);
+            for(int i = 0; i<children.size(); i++){
+                children.at(i)->depthFirstSearch(array);
+            }
+            return *array;
+        }
     
 
 };
