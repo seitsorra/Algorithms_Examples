@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <limits>
 #include <stack>
+#include <queue>
 using namespace std;
 
 template<class T>
