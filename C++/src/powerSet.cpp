@@ -13,6 +13,7 @@
 
 #include "utils.h"
 
+///TODO: Find the big O for runtime and space of the algorithm
 vector<vector<int>> powerSet_slow(vector<int> array){
     vector<vector<int>> ret;
     ret.push_back(vector<int>()); // there will always be an empty set
@@ -23,8 +24,11 @@ vector<vector<int>> powerSet_slow(vector<int> array){
         vector<int> set;
         set.push_back(array.at(i));
         for(int j = i+1; j < array.size(); j++){
-            set.push_back(array.at(j));
+            ret.push_back(vector<int>{array.at(i), array.at(j)});
         }
+    }
+    if(!array.empty()){
+        ret.push_back(array);
     }
     return ret;
 }
