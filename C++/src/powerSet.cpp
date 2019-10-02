@@ -13,7 +13,7 @@
 
 #include "utils.h"
 
-///TODO: Find the big O for runtime and space of the algorithm
+//This algorithm will run at O(N^2) time and O(N) space
 vector<vector<int>> powerSet_slow(vector<int> array){
     vector<vector<int>> ret;
     ret.push_back(vector<int>()); // there will always be an empty set
@@ -33,12 +33,49 @@ vector<vector<int>> powerSet_slow(vector<int> array){
     return ret;
 }
 
+// mathematically we know that the total number of subsets would be 2^n
+// and in average the length of subsets will be n/2
+// time & space complexity is O(2^n * n)
 vector<vector<int>> powerSet(vector<int> array){
-    return vector<vector<int>>();
+
+    // We know that the power set always has an empty set
+    vector<vector<int>> ret = {{}};
+
+    // here we go iterativaly to the source array and for each subset in 'ret' we add new ones by appending the new index
+    for(int i = 0; i < array.size(); i++){
+        int curSubsetSize = ret.size();
+        for(int j=0; j<curSubsetSize; j++){
+            vector<int> tmp = ret.at(j);
+            tmp.push_back(array.at(i));
+            ret.push_back(tmp);
+        }
+    }
+    return ret;
+}
+
+// Seems to be crashing ???
+vector<vector<int>> powerSetHelper(vector<int> array, int idx){
+    if(idx < 0){
+        return vector<vector<int>> {{}};
+    }
+
+    int element = array[idx];
+    vector<vector<int>> subsets = powerSetHelper(array, idx-1);
+    int length = subsets.size();
+    for(int i = 0; i < length; i++){
+        vector<int> tmp = subsets.at(i);
+        vector<int> newSubset = tmp;
+        newSubset.push_back(element);
+        subsets.push_back(newSubset);
+    }
+}
+
+vector<vector<int>> powerSet_recursive(vector<int> array){
+    return powerSetHelper(array, array.size()-1);
 }
 
 int main(){
-    vector<vector<int>> got = powerSet_slow(vector<int>{1, 2, 3});
+    vector<vector<int>> got = powerSet_recursive(vector<int>{1, 2, 3});
 
     for(int i=0; i < got.size(); i ++){
         printVector(got.at(i));
