@@ -53,7 +53,7 @@ vector<vector<int>> powerSet(vector<int> array){
     return ret;
 }
 
-// Seems to be crashing ???
+// Recursice function
 vector<vector<int>> powerSetHelper(vector<int> array, int idx){
     if(idx < 0){
         return vector<vector<int>> {{}};
@@ -68,6 +68,7 @@ vector<vector<int>> powerSetHelper(vector<int> array, int idx){
         newSubset.push_back(element);
         subsets.push_back(newSubset);
     }
+    return subsets;
 }
 
 vector<vector<int>> powerSet_recursive(vector<int> array){
