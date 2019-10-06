@@ -5,6 +5,7 @@
 #include <limits>
 #include <stack>
 #include <queue>
+#include <unordered_map>
 using namespace std;
 
 template<class T>
