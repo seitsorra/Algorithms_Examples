@@ -22,3 +22,10 @@ void printVector(T v)
     }
 }
 
+template<class T>
+void printVectorList(T vectorList){
+    for(auto vec : vectorList){
+        printVector(vec);
+    }
+}
+
