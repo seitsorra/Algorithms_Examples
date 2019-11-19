@@ -38,8 +38,26 @@ void rotate(int arr[][4], int matrixSize){
 }
 
 //Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to 0
-void checkForZeros(vector<vector<int>> arr){
+void checkForZeros(vector<vector<int>>& arr){
+    vector<vector<bool>> visited (arr.size(), vector<bool>(arr[0].size(), false));
 
+    for(int row = 0; row < arr.size(); row++){
+        for(int col = 0; col < arr[0].size(); col++){
+            if(arr[row][col] == 0 && !visited[row][col]){
+                for(int i = 0; i < arr.size(); i++){
+                    arr[i][col] = 0;
+                    visited[i][col] = true;
+                }
+                for(int i = 0; i < arr[0].size(); i++){
+                    arr[row][i] = 0;
+                    visited[row][i] = true;
+                }
+            }
+            else{
+                visited[row][col] = true;
+            }
+        }
+    }
 }
 
 int main(){
@@ -56,4 +74,11 @@ int main(){
         }
         cout << "\n";
     }
+
+    vector<vector<int>> tmp {{1, 2, 0},
+                             {0, 3, 4},
+                             {9, 2, 1},
+                             {5, 1, 0}};
+    checkForZeros(tmp);
+    printVectorList(tmp);
 }
